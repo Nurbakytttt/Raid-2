@@ -52,3 +52,17 @@ file, err := os.Open(fileName)
 
 	return tasks
 }
+func SaveTasks(tasks []Task) {
+file, err := os.Create(fileName)
+if err != nil {
+fmt.Println("Ошибка при создании файла:", err)
+return
+}
+defer file.Close()
+writer := bufio.NewWriter(file)
+for _, task := range tasks {
+line := fmt.Sprintf("%d;%s;%s\n", task.ID, task.Status, task.Title)
+writer.WriteString(line)
+}
+writer.Flush()
+}
